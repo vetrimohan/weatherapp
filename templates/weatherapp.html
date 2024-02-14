@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+{% block content %}
+<style>
+    .shadow{
+        box-shadow: 2px 2px 3px 1px lightslategray;
+        padding: 20px;
+    }
+</style>
+<div class="container-fluid" style="margin-top:60px;margin-bottom:100px">
+    <div class="col-md-offset-4 col-md-3">
+        <h1 style="text-align:center"><span class='fas fa-cloud-sunset'></span>Django-weather application</h1><br><br>
+        <div style="text-align:center">
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'error' %}
+            {{message}}
+        {% else %}
+           {{ message }}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+        <form method="POST">
+            {% csrf_token %}
+    <div style="text-align:center;">
+        <button type="submit" >{{form.name}}ADD CITY</button>
+    </div>
+    
+        
+        
+    </form>
+    {% for citi in weather_report %}
+       <div class="shadow" style="text-align:center;margin-left: 300px;margin-right: 300px;">
+        <!-- <a href="#"><img src="http://api.openweathermap.org/data/2.5/{{citi.icon}}"> </a> -->
+        <div>
+            <h2>{{citi.city}}</h2>
+            <h3>{{citi.temperature}}</h3>
+            <h3>{{citi.description}}</h3>
+            <h3>{{citi.country}}</h3>
+        </div><br><br>
+
+
+
+
+       </div>
+       {% endfor %}
+
+    
+    
+</div>
+</div>
+
+{% endblock %}

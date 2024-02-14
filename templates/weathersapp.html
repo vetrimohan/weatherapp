@@ -1,0 +1,118 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load static %}
+<style>
+   .shadow {
+    /* Initial styles without shadow */
+    padding: 20px;
+    color: black;
+    background-color: white;
+    transition: box-shadow 0.3s ease; /* Adding transition for smooth effect */
+}
+
+.shadow:hover {
+    /* Styles applied when hovered */
+    box-shadow: 2px 2px 3px 1px rgb(10, 72, 134);
+}
+.input-container {
+    text-align: center;
+}
+
+/* Adjust the width of the input field and button */
+input[type="text"] {
+    width: 300px; /* Adjust width as needed */
+    margin-right: 10px; /* Add margin between input field and button */
+}
+
+.btn {
+    width: 330px; /* Adjust width as needed */
+}
+.city-info {
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease;
+}
+
+.city-info:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: black;
+}
+
+/* Different font color on hover for each element */
+.city-info:hover h2 {
+    color: white; /* Change font color for h2 on hover */
+}
+
+.city-info:hover h3:nth-of-type(1) {
+    color: white; /* Change font color for first h3 on hover */
+}
+
+.city-info:hover h3:nth-of-type(2) {
+    color: white; /* Change font color for second h3 on hover */
+}
+
+.city-info:hover h3:nth-of-type(3) {
+    color: white; /* Change font color for third h3 on hover */
+}
+
+.city-info:hover h3:nth-of-type(4) {
+    color: white; /* Change font color for fourth h3 on hover */
+}
+
+
+</style>
+
+<div class="container-fluid" style="margin-top:60px;margin-bottom:100px">
+
+    <div>
+        <!-- <img src="\\static\\css\\sun-shining-dark-clouds-green-field_181624-26064.avif" alt="Description of the image"> -->
+        <h1 style="text-align: center;color: white;"><span class='fas fa-cloud-sunset'></span>Django-weather application</h1><br><br>
+        <div style="text-align:center">
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'error' %}
+            {{message}}
+        {% else %}
+           {{ message }}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+        <form method="POST">
+            {% csrf_token %}
+    <div style="text-align:center;">
+        <button type="submit" class="btn btn-primary">{{form.name}}ADD CITY</button>
+    </div>
+    
+        
+        
+    </form>
+    {% for citi in weather_report %}
+       <div class="shadow" style="text-align:center;margin-left: 300px;margin-right: 300px;">
+        <!-- <a href="#"><img src="http://api.openweathermap.org/data/2.5/{{citi.icon}}"> </a> -->
+        <div class="city-info">
+            <h2>{{ citi.city }}</h2>
+            <h3>{{ citi.temperature }}</h3>
+            <h3>{{ citi.description }}</h3>
+            <h3>{{ citi.country }}</h3>
+            <form method="POST" action="{% url 'delete_city' citi.city %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+        
+
+
+
+
+       </div><br><br>
+       {% endfor %}
+
+    
+    
+</div>
+</div>
+
+{% endblock %}
